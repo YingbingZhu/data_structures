@@ -1,8 +1,11 @@
 # python3
 
-import sys, threading
+import sys
+import threading
+
 sys.setrecursionlimit(10**6) # max depth of recursion
 threading.stack_size(2**27)  # new thread will get stack of such size
+
 
 class TreeOrders:
   def read(self):
@@ -16,32 +19,39 @@ class TreeOrders:
       self.left[i] = b
       self.right[i] = c
 
-  def inOrder(self):
-    self.result = []
+  def inOrder(self, root, res):
+    # self.result = []
     # Finish the implementation
     # You may need to add a new recursive method to do that
-                
-    return self.result
+    if root == -1:
+        return
+    self.inOrder(self.left[root], res)
+    res.append(self.key[root])
+    self.inOrder(self.right[root], res)
+    return res
 
-  def preOrder(self):
-    self.result = []
-    # Finish the implementation
-    # You may need to add a new recursive method to do that
-                
-    return self.result
+  def preOrder(self, root, res):
+    if root == -1:
+        return
+    res.append(self.key[root])
+    self.preOrder(self.left[root], res)
+    self.preOrder(self.right[root], res)
+    return res
 
-  def postOrder(self):
-    self.result = []
-    # Finish the implementation
-    # You may need to add a new recursive method to do that
-                
-    return self.result
+  def postOrder(self, root, res):
+    if root == -1:
+        return
+    self.postOrder(self.left[root], res)
+    self.postOrder(self.right[root], res)
+    res.append(self.key[root])
+    return res
 
 def main():
-	tree = TreeOrders()
-	tree.read()
-	print(" ".join(str(x) for x in tree.inOrder()))
-	print(" ".join(str(x) for x in tree.preOrder()))
-	print(" ".join(str(x) for x in tree.postOrder()))
+    tree = TreeOrders()
+    tree.read()
+    print(" ".join(str(x) for x in tree.inOrder(0, [])))
+    print(" ".join(str(x) for x in tree.preOrder(0, [])))
+    print(" ".join(str(x) for x in tree.postOrder(0, [])))
+
 
 threading.Thread(target=main).start()
